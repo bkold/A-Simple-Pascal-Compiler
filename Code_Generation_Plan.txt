@@ -1,0 +1,51 @@
+
+	- Add Load and Store as Op-Codes
+		-- They will be used when an array is being referenced
+		-I.E. B[j] = 4
+		=> t1 = 4
+		=> t2 = j
+		=> t3 = Integer_Size * t2 //4 in this case
+		=> t4 = B_Offset + t3;
+		=> t5 store t1 in t4 //t5 will share the value of t1 in the future
+
+		-I.E B[i][j][k] = 6
+		=> t1 = 6
+
+		=> t2 = i //this is parsed first
+		=> t3 = i - low_index
+		=> t4 = Sub_Array_Size * t3
+
+		=> t4_5 = B_Offset + t4 
+
+		=> t5 = j //this is pared second
+		=> t6 = j - low_index
+		=> t7 = Sub_Array_Size * t6 //when we get to indexed_variable in pascal.y?
+
+		=> t8 = t4_5 + t7
+
+		=> t9 = j //this is pared second
+		=> t10 = j - low_index
+		=> t11 = Integer_Size * t10
+
+		=> t12 = t11 + t8
+
+		=> t13 store t1 in t12 // *t12 = t1
+
+
+	- Index
+		A.B.C = 5;
+		=> t1 = 5;
+
+		=> t2 = load(A_Address + offset(B));
+
+		=> t3 = load(t2 + offset(C));
+
+		=> t4 = store t1 in t3;
+        XRay := YRay;
+
+        YRay[11] := 7456;
+
+        ZRay[22] := XRay;
+
+        ZRay[23][3] := XRay[3]
+		
